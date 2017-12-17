@@ -77,7 +77,31 @@ Looks like queue re-allocation blown up.
 
 # Some obesravations
 
-- Longer Thread.Sleep value is, less likely it is to get outcome #4.
-- Adding  
+- Longer Thread.Sleep value is, less likely it is to get outcome #4 and more likely it is to get #1
+- Adding `Trace.WriteLine(msg)` into message reading loop will also increase chances for #1
 
+
+# How it was detected
+
+Project I've discovered it was working this way. Consumer process was reading and output of Producer process.
+Consumer was expecting some control messages. Rarely these control messages didn't arrive. It didn't show up to often and therefore was not causing a significant pain. Until one day logging traffic increased.
+We found `Producer's` logs, saved on disk, contained missed control messages, which made us start look what could be wrong in a Consumer's code. 
+
+We build a stress test which stresses the same set classes as production code.  In a couple of iteration we distilled it into this project example.
+
+# Why it survided
+
+- One of the unit tests for involved classed detected shown this problem. 
+- It is easy to assume that `p.OutputDataReceived` is invoked in the same thread. I still see `Console.WriteLine` inside this callback. This could produce a data race on `System.Console` if main tread still executes.
+- `p.OutputDataReceived` was too hidden
+
+# How to find it in your codebase
+
+- Search for `OutputDataReceived` and `ErrorDataReceived` and check what is invoked inside
+- If your log system can do it, log thread id's for all the messages you processing.Alternatively you hook Console.System.Out and also log thread ids for each message. 
+
+
+# How to fix
+- synchronize access to queue or use one of the existing thread-safe queues
+- 
 

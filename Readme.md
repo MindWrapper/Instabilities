@@ -100,8 +100,6 @@ We build a stress test which stresses the same set classes as production code.  
 - Search for `OutputDataReceived` and `ErrorDataReceived` and check what is invoked inside
 - If your log system can do it, log thread id's for all the messages you processing.Alternatively you hook Console.System.Out and also log thread ids for each message. 
 
-
 # How to fix
 - synchronize access to queue or use one of the existing thread-safe queues
-- 
-
+- get rid of shared data

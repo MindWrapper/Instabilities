@@ -5,17 +5,23 @@ using System.Threading;
 
 namespace Instabilities.ProcessOutputConsumer
 {
-
     public class Program
     {
         static void Main()
         {
-            ProduceAndConsumeMessagesUsingQueue(1000);
-            ProduceAndConsumeMessagesUsingQueue(2000);
-            ProduceAndConsumeMessagesUsingQueue(3000);
+            ProduceAndConsumeMessages(100);
+            ProduceAndConsumeMessages(1000);
+            ProduceAndConsumeMessages(10000);
         }
 
-        static void ProduceAndConsumeMessagesUsingQueue(int expectedLinesCount)
+        static void ProduceAndConsumeMessages(int expectedLinesCount)
+        {
+            var processOutput = StartProducerProcess(expectedLinesCount);
+            var actualMessageCount = CountProducedLines(processOutput);
+            Console.WriteLine($"Lines read: {actualMessageCount} Expected: {expectedLinesCount}");
+        }
+
+        static Queue<string> StartProducerProcess(int expectedLinesCount)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -41,13 +47,17 @@ namespace Instabilities.ProcessOutputConsumer
 
             p.Start();
             p.BeginOutputReadLine();
+            return processOutout;
+        }
 
+        static int CountProducedLines(Queue<string> processOutput)
+        {
             var done = false;
             var actualMessageCount = 0;
             while (!done)
             {
                 string msg;
-                while (processOutout.Count > 0  && (msg = processOutout.Dequeue()) != null)
+                while (processOutput.Count > 0 && (msg = processOutput.Dequeue()) != null)
                 {
                     if (msg == "Done")
                     {
@@ -58,11 +68,7 @@ namespace Instabilities.ProcessOutputConsumer
                 }
                 Thread.Sleep(10);
             }
-
-            p.WaitForExit();
-            p.Close();
-            Console.WriteLine($"Lines read: {actualMessageCount} Expected: {expectedLinesCount}");
+            return actualMessageCount;
         }
-
     }
 }

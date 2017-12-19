@@ -1,7 +1,7 @@
 # Project description
 
-`Instabilities.ProcessOutputConsumer` is a console program, which starts  `Instabilities.ProcessOutputProducer` and pass it an argument, saying how many lines ProcessOutputProducer must produce.
-When read messages `ProcessOutputConsumer` accumulates them in a string queue.
+`ProcessOutputConsumer` is a console program, which starts  `ProcessOutputProducer` and pass it an integer, saying 
+how many lines it must produce. When read messages `ProcessOutputConsumer` accumulates them in a string queue - `processOutputQueue`
 
 # Wrong assumption
 
@@ -9,16 +9,12 @@ When read messages `ProcessOutputConsumer` accumulates them in a string queue.
 
 # Why it is wrong
 
-Very simple. `queue` is a subject of race condition. 
-
+`processOutputQueue` queue is a subject of a race condition. 
 
 ```
 p.OutputDataReceived += (sender, eventArgs) =>
 {
-    if (!string.IsNullOrEmpty(eventArgs.Data))
-    {
-        processOutout.Enqueue(eventArgs.Data);
-    }
+    processOutputQueue.Enqueue(eventArgs.Data);
 };
 ```
 
@@ -27,28 +23,24 @@ p.OutputDataReceived += (sender, eventArgs) =>
 Possible outcomes:
 
 1. Everything is OK.
-
+All iterations produced and expected output.
 ```
-Lines read: 100 Expected: 100
 Lines read: 1000 Expected: 1000
-Lines read: 10000 Expected: 10000
-Press any key to continue . . .
+...
 ```
 
 2. Some messages are missed
 
-
 ```
-Lines read: 100 Expected: 100
 Lines read: 1000 Expected: 1000
-Lines read: 9999 Expected: 10000
-Press any key to continue
+Lines read: 1000 Expected: 1000
+Lines read: 999 Expected: 1000
+Instability found!
 ```
 
-3. "Done" message is missed
+3. "Done" message is missed or instead  null messages is dequeued `CountProducedLines`
 
 If this case `ProcessOutputConsumer` will hang.
-
 
 4. Queue throws an exception
 
@@ -74,8 +66,7 @@ Unhandled Exception: System.ArgumentException: Source array was not long enough.
 
 Looks like queue re-allocation blown up.
 
-
-# Some obesravations
+# Some obesrvations
 
 - Longer Thread.Sleep value is, less likely it is to get outcome #4 and more likely it is to get #1
 - Adding `Trace.WriteLine(msg)` into message reading loop will also increase chances for #1
@@ -83,11 +74,13 @@ Looks like queue re-allocation blown up.
 
 # How it was detected
 
-Project I've discovered it was working this way. Consumer process was reading and output of Producer process.
-Consumer was expecting some control messages. Rarely these control messages didn't arrive. It didn't show up to often and therefore was not causing a significant pain. Until one day logging traffic increased.
-We found `Producer's` logs, saved on disk, contained missed control messages, which made us start look what could be wrong in a Consumer's code. 
+Project I've discovered it was working this way. Consumer process was reading an output of Producer process.
+Consumer was expecting some control messages. Rarely these control messages didn't arrive. It didn't show up to often 
+and therefore was not causing a significant pain. Until one day logging traffic increased. 
+We found that `Producer's` logs, saved on disk, contained all missed control messages, which made us to start look into  
+what was wrong with a Consumer's code. 
 
-We build a stress test which stresses the same set classes as production code.  In a couple of iteration we distilled it into this project example.
+We build a test which stresses the same set classes as production code. In a couple of iterations we distilled it into this project.
 
 # Why it survided
 
@@ -103,3 +96,8 @@ We build a stress test which stresses the same set classes as production code.  
 # How to fix
 - synchronize access to queue or use one of the existing thread-safe queues
 - get rid of shared data
+- ensure no other work is going on other thread while processing output.
+
+# Other variations
+
+If Console.WriteLine is invoked within the callback it might cause a race condition on Console.Out and therefore output might be screwed up

@@ -9,19 +9,30 @@ namespace Instabilities.ProcessOutputConsumer
     {
         static void Main()
         {
-            ProduceAndConsumeMessages(100);
-            ProduceAndConsumeMessages(1000);
-            ProduceAndConsumeMessages(10000);
+            for (var i = 0; i < 100; i++)
+            {
+                ProduceAndConsumeMessages(1000);
+            }
         }
 
         static void ProduceAndConsumeMessages(int expectedLinesCount)
         {
-            var processOutput = StartProducerProcess(expectedLinesCount);
-            var actualMessageCount = CountProducedLines(processOutput);
+            var processOutputQueue = new Queue<string>();
+
+            // starts producer process which redirects output to processOutputQueue
+            var process = StartProducerProcess(expectedLinesCount, processOutputQueue);
+
+            // returns number of messages read from processOutputQueue
+            var actualMessageCount = CountProducedLines(ref processOutputQueue);
             Console.WriteLine($"Lines read: {actualMessageCount} Expected: {expectedLinesCount}");
+            if (actualMessageCount != expectedLinesCount)
+            {
+                Console.WriteLine("Instability found!");
+            }
+            process.WaitForExit(-1);
         }
 
-        static Queue<string> StartProducerProcess(int expectedLinesCount)
+        static Process StartProducerProcess(int expectedLinesCount, Queue<string> processOutputQueue)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -36,39 +47,35 @@ namespace Instabilities.ProcessOutputConsumer
                 StartInfo = startInfo
             };
 
-            var processOutout = new Queue<string>();
             p.OutputDataReceived += (sender, eventArgs) =>
             {
-                if (!string.IsNullOrEmpty(eventArgs.Data))
-                {
-                    processOutout.Enqueue(eventArgs.Data);
-                }
+                processOutputQueue.Enqueue(eventArgs.Data);
             };
 
             p.Start();
             p.BeginOutputReadLine();
-            return processOutout;
+            return p;
         }
 
-        static int CountProducedLines(Queue<string> processOutput)
+        static int CountProducedLines(ref Queue<string> processOutputQueue)
         {
             var done = false;
-            var actualMessageCount = 0;
+            var linesCount = 0;
             while (!done)
             {
                 string msg;
-                while (processOutput.Count > 0 && (msg = processOutput.Dequeue()) != null)
+                while (processOutputQueue.Count > 0 && (msg = processOutputQueue.Dequeue()) != null)
                 {
                     if (msg == "Done")
                     {
                         done = true;
                         break;
                     }
-                    ++actualMessageCount;
+                    ++linesCount;
                 }
                 Thread.Sleep(10);
             }
-            return actualMessageCount;
+            return linesCount;
         }
     }
 }

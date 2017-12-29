@@ -3,19 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputProducer", "Instabilities.ProcessOutputProducer\Instabilities.ProcessOutputProducer.csproj", "{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputConsumer", "Instabilities.ProcessOutputConsumer\Instabilities.ProcessOutputConsumer.csproj", "{907E7411-88DA-42AF-A9A0-A52FEC151FB0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7} = {349A4C46-25A7-4944-BDF8-13D9CCCF13C7}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9D6CD1B-6608-4C9F-B007-C49559F89DC5}"
-	ProjectSection(SolutionItems) = preProject
-		Readme.md = Readme.md
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.EpochTime", "Instabilities.EpochTime\Instabilities.EpochTime.csproj", "{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputConsumer", "ProcessOutput\Instabilities.ProcessOutputConsumer\Instabilities.ProcessOutputConsumer.csproj", "{907E7411-88DA-42AF-A9A0-A52FEC151FB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputProducer", "ProcessOutput\Instabilities.ProcessOutputProducer\Instabilities.ProcessOutputProducer.csproj", "{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProcessOutput", "ProcessOutput", "{81F5AED8-BB2A-4F64-8D8E-AE91D961148C}"
+	ProjectSection(SolutionItems) = preProject
+		ProcessOutput\Readme.md = ProcessOutput\Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,20 +20,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{907E7411-88DA-42AF-A9A0-A52FEC151FB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{907E7411-88DA-42AF-A9A0-A52FEC151FB0} = {81F5AED8-BB2A-4F64-8D8E-AE91D961148C}
+		{349A4C46-25A7-4944-BDF8-13D9CCCF13C7} = {81F5AED8-BB2A-4F64-8D8E-AE91D961148C}
 	EndGlobalSection
 EndGlobal

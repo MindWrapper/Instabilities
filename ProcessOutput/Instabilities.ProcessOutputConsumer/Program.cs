@@ -9,7 +9,7 @@ namespace Instabilities.ProcessOutputConsumer
     {
         static void Main()
         {
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 10; i++)
             {
                 ProduceAndConsumeMessages(1000);
             }
@@ -73,7 +73,7 @@ namespace Instabilities.ProcessOutputConsumer
                     }
                     ++linesCount;
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(5);
             }
             return linesCount;
         }

@@ -10,7 +10,8 @@ namespace MyNamespace
         public void GetUTCNowMs_ReturnsValueLessOrEqualCurrentTime()
         {
             var result = GetEpochUtcNowInMilliseconds();
-            Assert.That(result, Is.LessThanOrEqualTo((DateTime.UtcNow - s_Epoch).TotalMilliseconds));
+            var now = (DateTime.UtcNow - s_Epoch).TotalMilliseconds;
+            Assert.That(result, Is.LessThanOrEqualTo(now));
         }
 
         static DateTime s_Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToUniversalTime();

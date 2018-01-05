@@ -1,32 +1,51 @@
 ﻿# Project description
 
-This projects demonstrates a flaky test.
+This project demonstrates a flaky test build around incorrect assumption about floating point rounding.
 
 # Wrong assumption
 
 The assertion bellow is always true.
 
 ```
+[Test]
+public void GetUTCNowMs_ReturnsValueLessOrEqualCurrentTime()
+{
+    var result = GetEpochUtcNowInMilliseconds();
+    var now = (DateTime.UtcNow - s_Epoch).TotalMilliseconds;
+    Assert.That(result, Is.LessThanOrEqualTo(now));
+}
+
 static DateTime s_Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToUniversalTime();
 
-private static long GetUtcNowMs()
+private static long GetEpochUtcNowInMilliseconds()
 {
     return Convert.ToInt64((DateTime.UtcNow - s_Epoch).TotalMilliseconds);
 }
-
-Assert.That(GetUtcNowMs(), Is.LessThanOrEqualTo (
-    (DateTime.UtcNow - s_Epoch).TotalMilliseconds)
-);
 ```
 
 # Why is it wrong?
 
-`Is.LessThanOrEqualTo` hides type conversion. GetUtcNowMs return long. TotalMilliseconds returns double, which greater, because decimal point is still there
+First, let's consider when the test above fails.
 
-Possible outcomes:
+For simplicity let suppose that `(DateTime.UtcNow - s_Epoch).TotalMilliseconds` 
+inside `GetEpochUtcNowInMilliseconds` returns 0.7. `Convert.ToInt64(0.7)` returns a value rounded to the 
+nearest 64-bit signed integer which is `1` 
 
-Test passes: 
-![](https://i.imgur.com/v5BgDX3.png)
+So `result` inside the test got assigned to 1. Now suppose that `now` got assigned to 0.8. It gives us: 
+`Assert.That(1, Is.LessThanOrEqualTo(0.8));`
+which is obviously false.
+
+Let's consider when test passes:
+
+`(DateTime.UtcNow - s_Epoch).TotalMilliseconds` inside `GetEpochUtcNowInMilliseconds` return 0.3, 
+which is rounded to 0.
+
+So, inside the test `result` holds `1`. Now let's say `now` equals to `0.5`. It gives us:
+`Assert.That(0, Is.LessThanOrEqualTo(0.5));`
+
+Which is true
+
+In real-world numbers are bigger, so the test fails like this:
 
 Test fails:
 ```
@@ -34,18 +53,14 @@ Test fails:
   But was:  1514451833691
 ```
 
-# Why it survided
 
-It is easy to forget that `TimeSpan.TotalMilliseconds` returns double. `Is.LessThanOrEqualTo` hid long to floating-point comparison.
+# Why it survived
 
-# How to avoid
+It is easy to forget that `TimeSpan.TotalMilliseconds` returns double. In addition
+compiler will not warn you about integer to floating-point comparison using `<=`
+(which is what `LessThanOrEqualTo` does).
 
-
-
-Avoid such LessThanOrEqualTo comparisons. Make GetUtcNowMs mockable and compare against a concreate value.
-
-
-The most of the code analyzers will not complain on the code like this:
+Try this to check:
 ```
 double d = 5;
 long i = 5;
@@ -54,6 +69,13 @@ if (i <= d)
     Console.WriteLine("<=");
 }
 ```
-If you put `==` instead, you'll most likely get a warning
+If it was `==` instead, the most of the tools would warn.
+
+# How to avoid
+
+Make `GetEpochUtcNowInMilliseconds` mockable and compare against a concrete value.
+Run test multiple times
+
+
 
 

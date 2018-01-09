@@ -1,4 +1,4 @@
-﻿# Project description
+# Project description
 
 This project demonstrates a flaky test build around incorrect assumption about floating point rounding.
 

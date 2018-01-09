@@ -107,4 +107,5 @@ One of the way to do it (if you logging system can not) is ti hook Console.Syste
 
 # Other variations
 
-If Console.WriteLine is invoked within the callback it might cause a race condition on Console.Out and therefore output might be screwed up
+If Console.WriteLine is invoked within the callback it might cause a race condition on Console.Out and therefore output might be screwed up.
+

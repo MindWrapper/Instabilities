@@ -74,7 +74,8 @@ If it was `==` instead, the most of the tools would warn.
 # How to avoid
 
 Make `GetEpochUtcNowInMilliseconds` mockable and compare against a concrete value.
-Run test multiple times
+Run test multiple times.
+
 
 
 

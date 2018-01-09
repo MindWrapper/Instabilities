@@ -4,6 +4,8 @@
 how many lines it must produce. `ProcessOutputConsumer` receives messages using async API's and accumulates them in a string queue -
 `processOutputQueue`
 
+To run it go to ProcessOutputAsync folder and set  `Instabilities.ProcessOutputProducer` as a startup project.
+
 
 # Wrong assumption
 

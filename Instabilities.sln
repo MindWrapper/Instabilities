@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputConsumer", "ProcessOutput\Instabilities.ProcessOutputConsumer\Instabilities.ProcessOutputConsumer.csproj", "{907E7411-88DA-42AF-A9A0-A52FEC151FB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputConsumer", "ProcessOutputAsync\Instabilities.ProcessOutputConsumer\Instabilities.ProcessOutputConsumer.csproj", "{907E7411-88DA-42AF-A9A0-A52FEC151FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputProducer", "ProcessOutput\Instabilities.ProcessOutputProducer\Instabilities.ProcessOutputProducer.csproj", "{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.ProcessOutputProducer", "ProcessOutputAsync\Instabilities.ProcessOutputProducer\Instabilities.ProcessOutputProducer.csproj", "{349A4C46-25A7-4944-BDF8-13D9CCCF13C7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProcessOutput", "ProcessOutput", "{81F5AED8-BB2A-4F64-8D8E-AE91D961148C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProcessOutputAsync", "ProcessOutputAsync", "{81F5AED8-BB2A-4F64-8D8E-AE91D961148C}"
 	ProjectSection(SolutionItems) = preProject
-		ProcessOutput\Readme.md = ProcessOutput\Readme.md
+		ProcessOutputAsync\Readme.md = ProcessOutputAsync\Readme.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instabilities.EpochTime", "EpochTime\Instabilities.EpochTime.csproj", "{A3A5B7EF-0870-4D55-80BB-D19B4F501BD2}"

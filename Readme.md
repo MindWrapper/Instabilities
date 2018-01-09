@@ -1,16 +1,11 @@
-Instability has many faces: random crashes, sporadic data corruption, flaky tests and others. They are hard to reproduce and fix. 
-And they might be a cause why people burn-out or get fired. See  [Johnny's story](http://drugalya.com/johnny-the-automator/)
+Instability has many faces: random crashes, sporadic data corruption, flaky tests and others. They are hard to reproduce and fix. And they might be a cause why people burn-out or get fired. See  [Johnny's story](http://drugalya.com/johnny-the-automator/).
 
-Each instability is an undetected wrong assumption, which survives a testing and can an even sneak into a public release. 
+Each instability is an undetected wrong assumption, which survives testing and can an even sneak into a public release.
 
-I believe that if an incorrect assumption survived someoneís critical thinking, there is a chance that others made the same mistake.
- Therefore I decided to start this project, where Iíll be sharing such incorrect assumptions and encourage you to the same. 
+I believe that if an incorrect assumption survived someone‚Äôs critical thinking, there is a chance that others made the same mistake. Therefore I decided to start this project, where I‚Äôll be sharing such incorrect assumptions.  
 
-Imagine, you spent days of debugging, found a real source of instability and shared it. Someone reads your finding and claims 
-ìShit, I might have the same issue in my code base!î It is a plus to karma. 
+I encourage you to share your findings. It can be anything: text description or code, or both. Whatever form you choose, please keep it simple. Any programming languages are welcome.
 
-Whether it is a text description or code, or both, it should be simple. Any programming languages are welcome.
+Imagine, you spent days of debugging, found a real source of instability and shared it. Someone reads your finding and claims ‚ÄúShit, I might have the same issue in my code base!‚Äù It is a plus to karma.
 
-And one final thing. Often, dumbest instabilities are hiding under the umbrella of complexity. When distilled, 
-it might feel shameful that something like this was a part of your code base. Please share it anyway. 
-You can still explain why it was hard to discover and if there is a way how others might find it.
+And one final thing. Often, dumbest instabilities are hiding under the umbrella of complexity. When distilled, it might feel shameful that something like this was a part of your code base. Please share it anyway. You can still explain why it was hard to discover and if there is a way how others might find it.

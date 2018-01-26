@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using Instabilities.Utils;
 
 namespace Instabilities.ProcessSharedFileReader
 {
@@ -39,6 +40,7 @@ namespace Instabilities.ProcessSharedFileReader
             var s = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var readLinesCount = 0;
             var incompleteLines = 0;
+
             using (var streamReader = new StreamReader(s))
             {
                 while (true)

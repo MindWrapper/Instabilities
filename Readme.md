@@ -1,4 +1,4 @@
-Instability has many faces: random crashes, sporadic data corruption, flaky tests and others. They are hard to reproduce and fix. And they might be a cause why people burn-out or get fired. See  [Johnny's story](http://drugalya.com/johnny-the-automator/).
+Instability has many faces: random crashes, sporadic data corruption, flaky tests and others. They are hard to reproduce and fix. 
 
 Each instability is an undetected wrong assumption, which survives testing and can an even sneak into a public release.
 
